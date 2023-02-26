@@ -1,51 +1,25 @@
-# AWS Lambda Simple S3 Function Project
+## About
 
-This starter project consists of:
-* Function.cs - class file containing a class with a single function handler method
-* aws-lambda-tools-defaults.json - default argument settings for use with Visual Studio and command line deployment tools for AWS
+Lambda function written in .NET 6 that receives and processes events inserted in EventBridge.
 
-You may also have a test project depending on the options selected.
+## Installation
 
-The generated function handler responds to events on an Amazon S3 bucket. The handler receives the bucket and object key details in an S3Event instance and returns the content type of the object as the function output. Replace the body of this method, and parameters, to suit your needs.
+To test the Lambda function, you first need to deploy it and then post an event to AWS EventBridge.
 
-After deploying your function you must configure an Amazon S3 bucket as an event source to trigger your Lambda function.
+To deploy it, run the following command:
 
-## Here are some steps to follow from Visual Studio:
-
-To deploy your function to AWS Lambda, right click the project in Solution Explorer and select *Publish to AWS Lambda*.
-
-To view your deployed function open its Function View window by double-clicking the function name shown beneath the AWS Lambda node in the AWS Explorer tree.
-
-To perform testing against your deployed function use the Test Invoke tab in the opened Function View window.
-
-To configure event sources for your deployed function, for example to have your function invoked when an object is created in an Amazon S3 bucket, use the Event Sources tab in the opened Function View window.
-
-To update the runtime configuration of your deployed function use the Configuration tab in the opened Function View window.
-
-To view execution logs of invocations of your function use the Logs tab in the opened Function View window.
-
-## Here are some steps to follow to get started from the command line:
-
-Once you have edited your template and code you can deploy your application using the [Amazon.Lambda.Tools Global Tool](https://github.com/aws/aws-extensions-for-dotnet-cli#aws-lambda-amazonlambdatools) from the command line.
-
-Install Amazon.Lambda.Tools Global Tools if not already installed.
 ```
-    dotnet tool install -g Amazon.Lambda.Tools
+cd Lambda-EventBridge-Consumer\LambdaConsumer
+dotnet lambda deploy-function
 ```
 
-If already installed check if new version is available.
-```
-    dotnet tool update -g Amazon.Lambda.Tools
-```
+NOTE: You need to create a role in your AWS account with the proper permissions and change the ARN in the ```aws-lambda-tools-defaults``` file.
 
-Execute unit tests
-```
-    cd "LambdaConsumer/test/LambdaConsumer.Tests"
-    dotnet test
-```
+Event that must be posted:
 
-Deploy function to AWS Lambda
 ```
-    cd "LambdaConsumer/src/LambdaConsumer"
-    dotnet lambda deploy-function
+{
+  "Id": 1,
+  "Message": "Test Message!"
+}
 ```
